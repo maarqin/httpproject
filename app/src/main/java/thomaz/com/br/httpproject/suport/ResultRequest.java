@@ -14,7 +14,7 @@ public abstract class ResultRequest implements AsyncTaskListener {
     static private ProgressDialog progress;
 
     private String title;
-     String message;
+    private String message;
 
     public ResultRequest(Context context, String title, String message) {
         progress = new ProgressDialog(context);
