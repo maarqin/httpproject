@@ -1,5 +1,8 @@
 package thomaz.com.br.httpproject.suport;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
@@ -12,8 +15,13 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     private AsyncTaskListener taskListener;
     private Tasked task;
+    static private ProgressDialog progress;
 
-    public Request(Tasked task) {
+    private String title;
+    private String message;
+
+    public Request(Context context, Tasked task) {
+        progress = new ProgressDialog(context);
         this.task = task;
     }
 
@@ -23,6 +31,11 @@ public class Request extends SafeAsyncTask<JSONObject> {
             throw new NullPointerException("Must to be instance of AsyncTaskListener.");
 
         taskListener.onPreExecute();
+
+        progress.setTitle(title);
+        progress.setMessage(message);
+        progress.setCancelable(false);
+        progress.show();
     }
 
     @Override
@@ -40,6 +53,8 @@ public class Request extends SafeAsyncTask<JSONObject> {
     @Override
     protected void onFinally() throws RuntimeException {
         taskListener.onFinally();
+
+        progress.dismiss();
     }
 
     /**
@@ -49,4 +64,17 @@ public class Request extends SafeAsyncTask<JSONObject> {
         this.taskListener = taskListener;
     }
 
+    /**
+     * @param message
+     */
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    /**
+     * @param title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

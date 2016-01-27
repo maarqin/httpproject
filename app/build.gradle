@@ -40,4 +40,5 @@ task exportJar(type: Copy) {
     include ('classes.jar')
     rename('classes.jar', 'AndroidPlugin2.jar')
 }
+
 exportJar.dependsOn(deleteOldJar, build)
