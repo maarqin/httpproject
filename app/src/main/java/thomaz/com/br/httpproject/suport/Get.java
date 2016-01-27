@@ -7,7 +7,8 @@ import okhttp3.Request;
  */
 public class Get extends PrepareRequest implements Tasked {
 
-    public Get() { }
+    public Get() {
+    }
 
     public Get(String url) {
         super(url);

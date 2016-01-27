@@ -11,22 +11,20 @@ import okhttp3.RequestBody;
 /**
  * Created by thomaz on 22/01/16.
  */
-public abstract class PrepareRequest {
+public class PrepareRequest {
 
     protected Request.Builder request;
     protected StringBuilder parameters = new StringBuilder();
     protected String url;
-    private JSONObject object;
 
     public PrepareRequest() {
-        request = new Request.Builder();
+        this.request = new Request.Builder();
     }
 
     /**
      * @param url
      */
     public PrepareRequest(String url) {
-        this();
         this.url = url;
     }
 
@@ -88,17 +86,4 @@ public abstract class PrepareRequest {
                 .create(MediaType.parse("application/json; charset=utf-8"), body.toString()));
     }
 
-    /**
-     * @param object
-     */
-    public void set(JSONObject object) {
-        this.object = object;
-    }
-
-    /**
-     * @return
-     */
-    public JSONObject get() {
-        return object;
-    }
 }

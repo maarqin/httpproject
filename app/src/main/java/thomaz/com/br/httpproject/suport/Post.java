@@ -1,5 +1,6 @@
 package thomaz.com.br.httpproject.suport;
 
+
 import okhttp3.Request;
 
 /**
@@ -7,7 +8,8 @@ import okhttp3.Request;
  */
 public class Post extends PrepareRequest implements Tasked {
 
-    public Post() { }
+    public Post() {
+    }
 
     public Post(String url) {
         super(url);

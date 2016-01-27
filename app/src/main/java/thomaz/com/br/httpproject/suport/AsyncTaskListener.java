@@ -5,12 +5,7 @@ import org.json.JSONObject;
 /**
  * Created by thomaz on 23/01/16.
  */
-public interface AsyncTaskListener {
-
-    /**
-     *
-     */
-    void onPreExecute();
+public interface AsyncTaskListener extends HalfAsync {
 
     /**
      * @param object
@@ -19,8 +14,4 @@ public interface AsyncTaskListener {
      */
     void onSuccess(JSONObject object, boolean success) throws Exception;
 
-    /**
-     *
-     */
-    void onFinally();
 }
