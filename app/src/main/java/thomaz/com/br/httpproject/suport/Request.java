@@ -20,7 +20,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
     @Override
     protected void onPreExecute() throws Exception {
         if( taskListener == null )
-            throw new NullPointerException("Must instance AsyncTaskListener via setListener method");
+            throw new NullPointerException("Must to be instance of AsyncTaskListener.");
 
         taskListener.onPreExecute();
     }
@@ -34,7 +34,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     protected void onSuccess(JSONObject object) throws Exception {
-        taskListener.onSuccess(object);
+        taskListener.onSuccess(object, object.getBoolean("success"));
     }
 
     @Override

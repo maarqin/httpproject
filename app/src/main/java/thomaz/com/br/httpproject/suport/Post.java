@@ -7,6 +7,16 @@ import okhttp3.Request;
  */
 public class Post extends PrepareRequest implements Tasked {
 
+    public Post() { }
+
+    public Post(String url) {
+        super(url);
+    }
+
+    public Post(Request.Builder request) {
+        super(request);
+    }
+
     @Override
     public Request prepare() {
         request.url(String.format("%s%s", url, parameters));
