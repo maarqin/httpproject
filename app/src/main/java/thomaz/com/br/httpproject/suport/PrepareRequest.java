@@ -25,6 +25,7 @@ public class PrepareRequest {
      * @param url
      */
     public PrepareRequest(String url) {
+        this();
         this.url = url;
     }
 
