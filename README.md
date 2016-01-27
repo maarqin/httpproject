@@ -18,7 +18,7 @@ allprojects {
 }
 ```
 ```groovy
-compile 'com.github.maarqin:httpproject:v1.0.1'
+compile 'com.github.maarqin:httpproject:v1.2.0'
 ```
 or Maven:
 ```xml
@@ -33,7 +33,7 @@ or Maven:
 <dependency>
     <groupId>com.github.maarqin</groupId>
     <artifactId>httpproject</artifactId>
-    <version>v1.0.1</version>
+    <version>v1.2.0</version>
 </dependency>
 ```
 
