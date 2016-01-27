@@ -10,7 +10,7 @@ import okhttp3.Response;
  */
 public class Request extends SafeAsyncTask<JSONObject> {
 
-    private AsyncTaskListener taskListener;
+    private ResultRequest result;
     private Tasked task;
 
     public Request(Tasked task) {
@@ -19,10 +19,10 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     protected void onPreExecute() throws Exception {
-        if( taskListener == null )
+        if( result == null )
             throw new NullPointerException("Must to be instance of AsyncTaskListener.");
 
-        taskListener.onPreExecute();
+        result.onPreExecute();
     }
 
     @Override
@@ -34,19 +34,19 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     protected void onSuccess(JSONObject object) throws Exception {
-        taskListener.onSuccess(object, object.getBoolean("success"));
+        result.onSuccess(object, object.getBoolean("success"));
     }
 
     @Override
     protected void onFinally() throws RuntimeException {
-        taskListener.onFinally();
+        result.onFinally();
     }
 
     /**
-     * @param taskListener
+     * @param result
      */
-    public void setListener(AsyncTaskListener taskListener) {
-        this.taskListener = taskListener;
+    public void setListener(ResultRequest result) {
+        this.result = result;
     }
 
 }
