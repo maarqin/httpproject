@@ -13,10 +13,29 @@ import okhttp3.RequestBody;
  */
 public abstract class PrepareRequest {
 
-    protected Request.Builder request = new Request.Builder();
+    protected Request.Builder request;
     protected StringBuilder parameters = new StringBuilder();
     protected String url;
     private JSONObject object;
+
+    public PrepareRequest() {
+        request = new Request.Builder();
+    }
+
+    /**
+     * @param url
+     */
+    public PrepareRequest(String url) {
+        this();
+        this.url = url;
+    }
+
+    /**
+     * @param request
+     */
+    public PrepareRequest(Request.Builder request) {
+        this.request = request;
+    }
 
     /**
      * Address to consult

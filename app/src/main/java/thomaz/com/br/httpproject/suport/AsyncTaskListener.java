@@ -14,8 +14,10 @@ public interface AsyncTaskListener {
 
     /**
      * @param object
+     * @param success
+     * @throws Exception
      */
-    void onSuccess(JSONObject object);
+    void onSuccess(JSONObject object, boolean success) throws Exception;
 
     /**
      *
