@@ -36,6 +36,30 @@ or Maven:
     <version>v1.2.0</version>
 </dependency>
 ```
+```java
+String value = "something";
+JSONObject object = new JSONObject();
+
+object.put("key", value);
+
+Post post = new Post(WSConfig.URL);
+post.setBody(object);
+
+Request request = new Request(post);
+request.setListener(new ResultRequest(context, R.string.app_name, "Enviando dados...") {
+
+	@Override
+	public void onSuccess(JSONObject object, boolean b) throws Exception {
+	    if (b) {
+	        saveData(object);
+	    } else {
+	        Toast.makeText(getApplication(), "Something wrong", Toast.LENGTH_SHORT).show();
+	    }
+	}
+});
+
+request.execute();
+```
 
 License
 -------
