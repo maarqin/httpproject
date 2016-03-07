@@ -36,6 +36,7 @@ or Maven:
     <version>v1.2.0</version>
 </dependency>
 ```
+Post sample:
 ```java
 String value = "something";
 JSONObject object = new JSONObject();
