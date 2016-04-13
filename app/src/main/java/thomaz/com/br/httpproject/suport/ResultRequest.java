@@ -1,11 +1,9 @@
 package thomaz.com.br.httpproject.suport;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
 import android.support.annotation.StringRes;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,26 +18,24 @@ import thomaz.com.br.httpproject.R;
  */
 public abstract class ResultRequest implements AsyncTaskListener {
 
-    LoaderView progress;
-
+    private LoaderView progress;
     private String title;
     private String message;
-    private Context context;
+    private Activity activity;
 
-    public ResultRequest(Context context, String title, String message) {
+    public ResultRequest(Activity activity, String title, String message) {
         this.title = title;
         this.message = message;
-        this.context = context;
+        this.activity = activity;
     }
 
-    public ResultRequest(Context context, @StringRes int title, String message) {
-        this(context, context.getString(title), message);
+    public ResultRequest(Activity activity, @StringRes int title, String message) {
+        this(activity, activity.getString(title), message);
     }
 
     @Override
     public void onPreExecute() {
-        progress = new LoaderView(context, message);
-
+        progress = new LoaderView(activity, message);
     }
 
     @Override
@@ -50,43 +46,33 @@ public abstract class ResultRequest implements AsyncTaskListener {
         progress.loaderViewClose();
     }
 
-}
+    private class LoaderView {
 
-class LoaderView {
+        private Dialog dialog;
+        private TextView textViewMessage;
 
-    Dialog dialog;
-    TextView textViewMessage;
+        public LoaderView(Activity activity, String message){
 
-    public LoaderView (Context context, String message){
+            dialog = new Dialog(activity);
+            dialog.setTitle(title);
+            dialog.setCancelable(false);
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow()
+                    .setFlags(
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            dialog.setContentView(R.layout.fragment_dialog_loader);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
 
-        dialog = new Dialog(context);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        dialog.setContentView(R.layout.fragment_dialog_loader);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+            textViewMessage = (TextView) dialog.getWindow().findViewById(R.id.fragment_dialog_tv);
+            textViewMessage.setText(message);
+        }
 
-        textViewMessage = (TextView)dialog.getWindow().findViewById(R.id.fragment_dialog_tv);
-        textViewMessage.setText(message);
-    }
+        public void loaderViewClose() {
+            dialog.dismiss();
+        }
 
-    public void loaderViewCloseWithSleep (String newMessage) {
-        textViewMessage.setText(newMessage);
-
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loaderViewClose();
-            }
-        }, 3000);
-
-
-    }
-
-    public void  loaderViewClose() {
-        dialog.dismiss();
     }
 
 }
