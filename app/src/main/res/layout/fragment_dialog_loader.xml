@@ -13,8 +13,8 @@
         android:visibility="visible"
         android:layout_margin="10dp"
         android:layout_gravity="center_horizontal"
-        app:indicator="BallScaleMultiple"
-        app:indicator_color="#5990fd"
+        app:indicatorName="BallScaleMultiple"
+        app:indicatorColor="#5990fd"
         />
 
     <TextView
