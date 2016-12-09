@@ -1,5 +1,7 @@
 package thomaz.com.br.httpproject.suport;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONObject;
 
 import okhttp3.OkHttpClient;
@@ -12,9 +14,15 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     private ResultRequest result;
     private Tasked task;
+    private OkHttpClient okHttpClient = new OkHttpClient();
 
     public Request(Tasked task) {
         this.task = task;
+    }
+
+    public Request(Tasked task, @NonNull OkHttpClient okHttpClient) {
+        this(task);
+        this.okHttpClient = okHttpClient;
     }
 
     @Override
@@ -27,7 +35,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     public JSONObject call() throws Exception {
-        Response response = (new OkHttpClient()).newCall(task.prepare()).execute();
+        Response response = okHttpClient.newCall(task.prepare()).execute();
 
         return new JSONObject(response.body().string());
     }
@@ -43,7 +51,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
     }
 
     /**
-     * @param result
+     * @param result {@link ResultRequest}
      */
     public void setListener(ResultRequest result) {
         this.result = result;

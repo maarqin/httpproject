@@ -16,6 +16,7 @@ public class PrepareRequest {
     protected Request.Builder request;
     protected StringBuilder parameters = new StringBuilder();
     protected String url;
+    protected MediaType contentType = MediaType.parse("application/json; charset=utf-8");
 
     public PrepareRequest() {
         this.request = new Request.Builder();
@@ -83,8 +84,10 @@ public class PrepareRequest {
      * @param body
      */
     public void setBody(JSONObject body) {
-        request.post(RequestBody
-                .create(MediaType.parse("application/json; charset=utf-8"), body.toString()));
+        request.post(RequestBody.create(contentType, body.toString()));
     }
 
+    public void setContentType(MediaType contentType) {
+        this.contentType = contentType;
+    }
 }

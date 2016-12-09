@@ -2,12 +2,14 @@ package thomaz.com.br.httpproject.suport;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.StringRes;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONObject;
 
@@ -18,24 +20,23 @@ import thomaz.com.br.httpproject.R;
  */
 public abstract class ResultRequest implements AsyncTaskListener {
 
-    private LoaderView progress;
-    private String title;
-    private String message;
-    private Activity activity;
+    private Dialog dialogLoading;
 
-    public ResultRequest(Activity activity, String title, String message) {
-        this.title = title;
-        this.message = message;
-        this.activity = activity;
+    public ResultRequest(Activity activity, String message, int color) {
+        this(new LoaderViewDefault(activity, message, color));
     }
 
-    public ResultRequest(Activity activity, @StringRes int title, String message) {
-        this(activity, activity.getString(title), message);
+    public ResultRequest(Activity activity, String message) {
+        this(new LoaderViewDefault(activity, message));
+    }
+
+    public ResultRequest(Dialog dialogLoading) {
+        this.dialogLoading = dialogLoading;
     }
 
     @Override
     public void onPreExecute() {
-        progress = new LoaderView(activity, message);
+        if( dialogLoading != null ) dialogLoading.show();
     }
 
     @Override
@@ -43,34 +44,34 @@ public abstract class ResultRequest implements AsyncTaskListener {
 
     @Override
     public void onFinally() {
-        progress.loaderViewClose();
+        if( dialogLoading != null ) dialogLoading.cancel();
     }
 
-    private class LoaderView {
+    private static class LoaderViewDefault extends Dialog {
 
-        private Dialog dialog;
-        private TextView textViewMessage;
+        public LoaderViewDefault(Context context, String message, int color) {
+            this(context, message);
 
-        public LoaderView(Activity activity, String message){
-
-            dialog = new Dialog(activity);
-            dialog.setTitle(title);
-            dialog.setCancelable(false);
-            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow()
-                    .setFlags(
-                            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            dialog.setContentView(R.layout.fragment_dialog_loader);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.show();
-
-            textViewMessage = (TextView) dialog.getWindow().findViewById(R.id.fragment_dialog_tv);
-            textViewMessage.setText(message);
+            AVLoadingIndicatorView indicatorView = (AVLoadingIndicatorView)
+                    getWindow().findViewById(R.id.avloadingIndicatorView);
+            indicatorView.setIndicatorColor(color);
         }
 
-        public void loaderViewClose() {
-            dialog.dismiss();
+        public LoaderViewDefault(Context context, String message) {
+            super(context);
+
+            setTitle(null);
+            setCancelable(false);
+            setOnCancelListener(null);
+            getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            setContentView(R.layout.fragment_dialog_loader);
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            TextView textViewMessage = (TextView) getWindow().findViewById(R.id.fragment_dialog_tv);
+            textViewMessage.setText(message);
         }
 
     }
