@@ -42,7 +42,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     protected void onSuccess(JSONObject object) throws Exception {
-        result.onSuccess(object, object.getBoolean("success"));
+        result.onSuccess(object, object.has("success") && object.getBoolean("success"));
     }
 
     @Override
