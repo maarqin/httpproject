@@ -15,6 +15,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
     private ResultRequest result;
     private Tasked task;
     private OkHttpClient okHttpClient = new OkHttpClient();
+    private Response response;
 
     public Request(Tasked task) {
         this.task = task;
@@ -35,7 +36,7 @@ public class Request extends SafeAsyncTask<JSONObject> {
 
     @Override
     public JSONObject call() throws Exception {
-        Response response = okHttpClient.newCall(task.prepare()).execute();
+        response = okHttpClient.newCall(task.prepare()).execute();
 
         return new JSONObject(response.body().string());
     }
@@ -55,6 +56,13 @@ public class Request extends SafeAsyncTask<JSONObject> {
      */
     public void setListener(ResultRequest result) {
         this.result = result;
+    }
+
+    /**
+     * @return Response
+     */
+    public Response getResponse() {
+        return response;
     }
 
 }
